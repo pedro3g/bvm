@@ -6,7 +6,7 @@ import (
 )
 
 func GetBaseDir() (string, error) {
-	baseDir := os.Getenv("NVM_GO")
+	baseDir := os.Getenv("BVM_DIR")
 
 	if len(baseDir) == 0 {
 		return "", errors.New("NVM base dir not found")
