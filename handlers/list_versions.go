@@ -15,6 +15,11 @@ import (
 type Version struct {
 	TagName     string    `json:"tag_name"`
 	PublishedAt time.Time `json:"published_at"`
+	Assets      []Assets
+}
+
+type Assets struct {
+	Name string
 }
 
 func ListVersions(echo bool) ([]Version, error) {
@@ -42,9 +47,9 @@ func ListVersions(echo bool) ([]Version, error) {
 		log.Fatalln("Could not read the list of releases")
 	}
 
-	var version []Version
+	var versions []Version
 
-	err = json.Unmarshal(body, &version)
+	err = json.Unmarshal(body, &versions)
 
 	if err != nil {
 		if !echo {
@@ -54,15 +59,15 @@ func ListVersions(echo bool) ([]Version, error) {
 		log.Fatalln("Could not unmarshal the JSON response")
 	}
 
-	utils.Reverse(&version)
+	utils.Reverse(&versions)
 
 	if echo {
-		for _, version := range version {
-			v := strings.Split(version.TagName, "-")[1]
+		for _, version := range versions {
+			v := strings.Split(version.TagName, "-v")[1]
 
 			fmt.Println(v)
 		}
 	}
 
-	return version, nil
+	return versions, nil
 }
