@@ -15,7 +15,7 @@ func GetSystemInfo() (platform string, arch string, err error) {
 	arch = archEquivalents[runtime.GOARCH]
 	err = nil
 
-	if arch != "" {
+	if arch == "" {
 		err = errors.New("unable to detect your processor architecture")
 	}
 

@@ -25,7 +25,7 @@ func InstallVersion(version *string) {
 
 	available, assetName := checkAvailability(version)
 
-	if available {
+	if !available {
 		log.Fatalln("Version not available")
 	}
 
@@ -52,7 +52,10 @@ func checkAvailability(version *string) (bool, string) {
 	}
 
 	for _, v := range versions {
-		if v.TagName == *version {
+		tagName := strings.Replace(v.TagName, "bun-v", "", 1)
+
+		if tagName == *version {
+
 			for _, asset := range v.Assets {
 				parts := strings.Split(asset.Name, "-")
 				platform, arch, err := utils.GetSystemInfo()
@@ -60,6 +63,11 @@ func checkAvailability(version *string) (bool, string) {
 				if err != nil {
 					log.Fatalln(err)
 				}
+
+				fmt.Println(asset.Name)
+				fmt.Println(platform)
+				fmt.Println(arch)
+				fmt.Println()
 
 				if parts[1] == platform && parts[2] == arch {
 					return true, asset.Name
