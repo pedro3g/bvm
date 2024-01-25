@@ -52,20 +52,18 @@ func checkAvailability(version *string) (bool, string) {
 	}
 
 	for _, v := range versions {
-		if v.TagName != *version {
-			continue
-		}
+		if v.TagName == *version {
+			for _, asset := range v.Assets {
+				parts := strings.Split(asset.Name, "-")
+				platform, arch, err := utils.GetSystemInfo()
 
-		for _, asset := range v.Assets {
-			parts := strings.Split(asset.Name, "-")
-			platform, arch, err := utils.GetSystemInfo()
+				if err != nil {
+					log.Fatalln(err)
+				}
 
-			if err != nil {
-				log.Fatalln(err)
-			}
-
-			if parts[1] == platform && parts[2] == arch {
-				return true, asset.Name
+				if parts[1] == platform && parts[2] == arch {
+					return true, asset.Name
+				}
 			}
 		}
 	}
