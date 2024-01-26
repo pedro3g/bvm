@@ -8,7 +8,7 @@ import (
 func GetSystemInfo() (platform string, arch string, err error) {
 	archEquivalents := map[string]string{
 		"386":   "x32",
-		"amd64": "x64",
+		"amd64": "aarch64",
 	}
 
 	platform = runtime.GOOS

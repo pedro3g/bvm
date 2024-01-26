@@ -29,9 +29,9 @@ func InstallVersion(version *string) {
 		log.Fatalln("Version not available")
 	}
 
-	fmt.Println(assetName)
+	archiveUrl := fmt.Sprintf("https://github.com/oven-sh/bun/releases/download/bun-v%s/%s", *version, assetName)
 
-	// archiveUrl := fileName
+	fmt.Println(archiveUrl)
 }
 
 func checkIfInstalled(version *string) bool {
@@ -57,19 +57,16 @@ func checkAvailability(version *string) (bool, string) {
 		if tagName == *version {
 
 			for _, asset := range v.Assets {
-				parts := strings.Split(asset.Name, "-")
+				assetPath := strings.Split(asset.Name, ".")[0]
 				platform, arch, err := utils.GetSystemInfo()
 
 				if err != nil {
 					log.Fatalln(err)
 				}
 
-				fmt.Println(asset.Name)
-				fmt.Println(platform)
-				fmt.Println(arch)
-				fmt.Println()
+				findPath := fmt.Sprintf("bun-%s-%s", platform, arch)
 
-				if parts[1] == platform && parts[2] == arch {
+				if assetPath == findPath {
 					return true, asset.Name
 				}
 			}

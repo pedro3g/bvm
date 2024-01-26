@@ -3,14 +3,11 @@ package main
 import (
 	"fmt"
 	"os"
-	"runtime"
 
 	"github.com/pedro3g/bvm/handlers"
 )
 
 func main() {
-	fmt.Println(runtime.GOARCH)
-
 	args := os.Args[1:]
 
 	if len(args) == 0 {
