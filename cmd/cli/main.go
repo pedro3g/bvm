@@ -7,6 +7,10 @@ import (
 	"github.com/pedro3g/bvm/handlers"
 )
 
+var (
+	version = "0.0.1"
+)
+
 func main() {
 	args := os.Args[1:]
 
